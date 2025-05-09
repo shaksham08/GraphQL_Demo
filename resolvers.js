@@ -43,13 +43,20 @@ export const resolvers = {
     },
   },
   Book: {
-    author: (parent) => {
+    author: (parent, args, ctx, info) => {
       return data.authors.find((author) => author.id === parent.authorId);
     },
   },
   Author: {
     books: (parent) => {
       return data.books.filter((book) => parent.bookIds.includes(book.id));
+    },
+  },
+  Mutation: {
+    addBook: (parent, args, ctx, info) => {
+      const newBook = { ...args, id: data.books.length + 1 };
+      data.books.push(newBook);
+      return newBook;
     },
   },
 };
